@@ -210,7 +210,9 @@ To point the API tests at a different MongoDB instance, set `TEST_MONGODB_URI` b
 |---|---|---|
 | `VITE_API_URL` | `http://localhost:5001/api` | Baked into the bundle at **build time** — rebuild after changing it |
 
-Neither `.env` file is committed. Only `.env.example` files are tracked.
+Neither `.env` file is committed. Only `.env.example` files are tracked, and they contain
+placeholders only — never put real credentials in a tracked example file. If a real connection
+string was ever committed, rotate that database user's password.
 
 ---
 
@@ -289,10 +291,10 @@ The compose file waits for MongoDB to be healthy before starting the backend. Se
 
 **2. Backend — Render / Railway / Vercel**
 - Render/Railway: build command `npm install`, start command `npm start`, `PORT` provided by the host.
-- Vercel: create a project with **Root Directory = `backend`**. Express is auto-detected from `src/app.js`; `src/app.js` also connects MongoDB lazily, so `server.js` is not needed on serverless.
+- Vercel: create a project with **Root Directory = `backend`**. Leave Build Command and Output Directory blank. Vercel's zero-config Express detection finds `src/app.js` (it imports `express` and default-exports the app); `src/app.js` connects MongoDB lazily, so `server.js` is not used on serverless. No `backend/vercel.json` is required.
 - Set env vars: `NODE_ENV=production`, `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `CORS_ORIGIN=<frontend URL>`. `PORT` is only needed outside Vercel.
-- Optional `ALLOW_VERCEL_PREVIEWS=true` also allows `*.vercel.app` origins; `CORS_ORIGIN` accepts a comma-separated list.
-- On startup the app synchronizes indexes automatically, so text search and unique constraints are ready immediately.
+- `CORS_ORIGIN` is required in production; the app fails fast with a clear message if it is missing. Optional `ALLOW_VERCEL_PREVIEWS=true` also allows `*.vercel.app` origins; `CORS_ORIGIN` accepts a comma-separated list.
+- On the first request in each serverless instance the app connects to MongoDB and synchronizes indexes, so text search and unique constraints are ready before queries run.
 
 **3. Frontend — Vercel / Netlify**
 - Framework preset: Vite. Build command `npm run build`, output directory `dist`.

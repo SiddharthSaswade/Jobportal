@@ -45,6 +45,14 @@ export const env = {
 
 export const isProduction = env.nodeEnv === 'production';
 
-if (isProduction && env.corsOrigin === '*') {
-  throw new Error('CORS_ORIGIN must be an explicit origin in production, not "*".');
+if (isProduction) {
+  if (!process.env.CORS_ORIGIN?.trim() || env.corsOrigins.length === 0) {
+    throw new Error(
+      'CORS_ORIGIN must be set in production to your deployed frontend URL ' +
+        '(comma-separated for multiple origins).'
+    );
+  }
+  if (env.corsOrigin === '*') {
+    throw new Error('CORS_ORIGIN must be an explicit origin in production, not "*".');
+  }
 }

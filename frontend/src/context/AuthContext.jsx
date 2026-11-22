@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
-import api from '../api/client.js';
+import api, { UNAUTHORIZED_EVENT } from '../api/client.js';
 import { TOKEN_STORAGE_KEY } from '../constants.js';
 
 const AuthContext = createContext(null);
@@ -45,6 +45,19 @@ export function AuthProvider({ children }) {
       active = false;
     };
   }, [token]);
+
+  // The axios response interceptor emits this when a protected request gets a
+  // 401 mid-session (expired/revoked token). Clear state so route guards send
+  // the user to /login, and so a stale token is never reused.
+  useEffect(() => {
+    const handleUnauthorized = () => {
+      setToken(null);
+      setUser(null);
+    };
+
+    window.addEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () => window.removeEventListener(UNAUTHORIZED_EVENT, handleUnauthorized);
+  }, []);
 
   const persistSession = useCallback((session) => {
     localStorage.setItem(TOKEN_STORAGE_KEY, session.token);
