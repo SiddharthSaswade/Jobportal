@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic tokens. Components use these names, so the whole UI can change
+   theme without sprinkling dark: classes through every file. */
+@theme {
+  --color-canvas: #f7f8fc;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f1f3f9;
+  --color-ink: #0f172a;
+  --color-ink-soft: #475569;
+  --color-muted: #64748b;
+  --color-line: #e5e7eb;
+  --color-brand: #4f46e5;
+  --color-brand-hover: #4338ca;
+  --color-brand-soft: #eef2ff;
+  --color-brand-ink: #4338ca;
+  --color-hero: #0f172a;
+  --color-hero-ink: #ffffff;
+  --color-hero-soft: #cbd5e1;
+  --color-hero-accent: #a5b4fc;
+  --color-good: #059669;
+  --color-good-soft: #ecfdf5;
+  --color-bad: #dc2626;
+  --color-bad-soft: #fef2f2;
+}
+
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    sans-serif;
+  color: var(--color-ink);
+  background-color: var(--color-canvas);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--color-canvas);
+  color: var(--color-ink);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+/* Dark theme. First the semantic tokens, then the built-in Tailwind palette
+   so existing pages (forms, cards, badges) follow along automatically. */
+.dark {
+  color-scheme: dark;
+
+  --color-canvas: #0b1120;
+  --color-surface: #111827;
+  --color-surface-alt: #172033;
+  --color-ink: #f1f5f9;
+  --color-ink-soft: #cbd5e1;
+  --color-muted: #94a3b8;
+  --color-line: #263149;
+  --color-brand: #818cf8;
+  --color-brand-hover: #a5b4fc;
+  --color-brand-soft: #1e1b4b;
+  --color-brand-ink: #c7d2fe;
+  --color-hero: #111c33;
+  --color-hero-ink: #f8fafc;
+  --color-hero-soft: #a8b6cf;
+  --color-hero-accent: #818cf8;
+  --color-good: #34d399;
+  --color-good-soft: #052e2b;
+  --color-bad: #f87171;
+  --color-bad-soft: #3f1212;
+
+  --color-white: #111827;
+  --color-slate-50: #0b1120;
+  --color-slate-100: #172033;
+  --color-slate-200: #263149;
+  --color-slate-300: #334155;
+  --color-slate-400: #64748b;
+  --color-slate-500: #94a3b8;
+  --color-slate-600: #cbd5e1;
+  --color-slate-700: #e2e8f0;
+  --color-slate-800: #f1f5f9;
+  --color-slate-900: #f8fafc;
+  --color-slate-950: #ffffff;
+
+  --color-indigo-50: #1e1b4b;
+  --color-indigo-100: #312e81;
+  --color-indigo-200: #3730a3;
+  --color-indigo-300: #4338ca;
+  --color-indigo-400: #6366f1;
+  --color-indigo-500: #818cf8;
+  --color-indigo-600: #a5b4fc;
+  --color-indigo-700: #c7d2fe;
+
+  --color-emerald-50: #052e2b;
+  --color-emerald-100: #064e3b;
+  --color-emerald-700: #6ee7b7;
+  --color-red-50: #3f1212;
+  --color-red-100: #7f1d1d;
+  --color-red-200: #991b1b;
+  --color-red-700: #fca5a5;
+}

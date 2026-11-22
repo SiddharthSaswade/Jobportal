@@ -1,0 +1,9 @@
+{
+  "name": "jobportal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MERN stack job portal with AI resume matcher",
+  "scripts": {
+    "test": "npm test --prefix backend && npm test --prefix frontend"
+  }
+}
